@@ -263,10 +263,10 @@ def hot_seat():
     draw_board(screen, bg, board)
     while True:
         for event in pygame.event.get():
-            if event.type == pygame.QUIT or event.type == pygame.K_ESCAPE:
+            if event.type == pygame.QUIT or event.type == pygame.KEYUP and event.key == pygame.K_ESCAPE:
                 pygame.quit()
                 return
-            elif event.type == pygame.K_RETURN:
+            elif event.type == pygame.KEYUP and event.key == pygame.K_SPACE:
                 player = next(players)
                 act = Pass(game.player_side(player))
                 game.register_action(act)
