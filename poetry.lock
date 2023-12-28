@@ -67,6 +67,20 @@ files = [
 ]
 
 [[package]]
+name = "pygame-widgets"
+version = "1.1.5"
+description = "Widgets for use with Pygame"
+optional = false
+python-versions = ">=3.10"
+files = [
+    {file = "pygame-widgets-1.1.5.tar.gz", hash = "sha256:86a52d736a30e0ba43e87f25a390f0a9b26b906f8e869929a009f38d92c28c67"},
+    {file = "pygame_widgets-1.1.5-py3-none-any.whl", hash = "sha256:572551dee5683dc4fe8488df7384854d360a63806a3224199eb58269490a658f"},
+]
+
+[package.dependencies]
+pygame = ">=2.0.0"
+
+[[package]]
 name = "uuid"
 version = "1.30"
 description = "UUID object and generation functions (Python 2.3 or higher)"
@@ -79,4 +93,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "a9542baf84ee5bde33bb7a29a87afb065b7cf82fb483936577f24fad4991df1a"
+content-hash = "31e68d0c411d565d83923ded71cf61bd6a1282908f753d5d04e5054420233c4f"
