@@ -117,6 +117,5 @@ def hot_seat():
                 except Exception as e:
                     print(e)
 
-                print('\n')
                 print(board)
         draw_board(screen, bg, board)

@@ -3,7 +3,7 @@ import uuid
 from abc import ABC
 from dataclasses import dataclass
 
-from board import Position, Side, Stone, Board
+from board import Position, Side, Board
 
 
 @dataclass(frozen=True, repr=True)
@@ -35,8 +35,8 @@ class Player:
 class Game:
     white_player: Player = None
     black_player: Player = None
-    white_score: float = 0
-    black_score: float = 6.5
+    white_score: float = 6.5
+    black_score: float = 0
     board: Board = dataclasses.field(default_factory=lambda: Board(19))
     log: list[Action] = dataclasses.field(default_factory=list)
 
@@ -70,26 +70,8 @@ class Game:
             case Pass(side):
                 pass
 
-        self.kill_surrounded()
+        ws, bs = self.board.kill_surrounded()
+        self.white_score += ws
+        self.black_score += bs
 
-    def kill_surrounded(self):
-        groups = {}
-        for i in range(self.board.n):
-            for j in range(self.board.n):
-                if (i, j) in groups:
-                    continue
 
-                group = self.board.group_at(Position(i, j))
-                groups |= dict.fromkeys(group, group)
-
-        for group in groups.values():
-            if not group:
-                continue
-
-            if self.board.is_surrounded(group):
-                stone = self.board[next(iter(group))]
-                if stone == Stone.White:
-                    self.white_score += len(group)
-                elif stone == Stone.Black:
-                    self.black_score += len(group)
-                self.board.delete_group(group)

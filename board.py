@@ -79,12 +79,39 @@ class Board:
         for member in group:
             self._stones.pop(member)
 
+    def kill_surrounded(self) -> tuple[int, int]:
+        white_score = 0
+        black_score = 0
+
+        groups = {}
+        for i in range(1, self.n + 1):
+            for j in range(1, self.n + 1):
+                if (i, j) in groups:
+                    continue
+
+                group = self.group_at(Position(i, j))
+                groups |= dict.fromkeys(group, group)
+
+        for group in groups.values():
+            if not group:
+                continue
+
+            if self.is_surrounded(group):
+                stone = self[next(iter(group))]
+                if stone == Stone.White:
+                    white_score += len(group)
+                elif stone == Stone.Black:
+                    black_score += len(group)
+                self.delete_group(group)
+
+        return white_score, black_score
+
     def in_bounds(self, pos: Position) -> bool:
         return 1 <= pos.x <= self.n and 1 <= pos.y <= self.n
 
     def __iter__(self) -> Iterable[tuple[Position, Side | None]]:
-        for x in range(self.n + 1):
-            for y in range(self.n + 1):
+        for x in range(1, self.n + 1):
+            for y in range(1, self.n + 1):
                 yield Position(x, y), self._stones.get(Position(x, y))
 
     def get(self, pos: Position) -> Side | None:
@@ -95,8 +122,8 @@ class Board:
 
     def __str__(self):
         res = ""
-        for i in range(self.n - 1, -1, -1):
-            for j in range(self.n):
+        for j in range(1, self.n + 1):
+            for i in range(1, self.n + 1):
                 side = self.get(Position(i, j))
                 if side is None:
                     res += '.'
